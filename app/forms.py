@@ -20,8 +20,34 @@ class WebpageForm(forms.Form):
     name=forms.CharField(validators=[validate_for_a,validate_for_len])
     url=forms.URLField()
     email=forms.EmailField()
+    reemail=forms.EmailField()
+    botcatcher=forms.CharField(widget=forms.HiddenInput,required=False)
+
+
+    def clean_botcatcher(self):
+        cu=self.cleaned_data['botcatcher']
+        if len(cu)>0:
+            raise forms.ValidationError('bot is catched')
+
+    def clean_url(self):
+        cu=self.cleaned_data['url']
+        if cu[-1]=='n':
+            raise forms.ValidationError('Ended with in')
+
+    def clean(self):
+        e=self.cleaned_data['email']
+        re=self.cleaned_data['reemail']
+        if e!=re:
+            raise forms.ValidationError('Data is invalid')
+
 
 class AccessRecordForm(forms.Form):
     name=forms.ModelChoiceField(queryset=Webpage.objects.all())
     date=forms.DateField()
     author=forms.CharField(validators=[validate_for_a,validate_for_len])
+    botcatcher=forms.CharField(widget=forms.HiddenInput,required=True)
+
+    def clean_botcatcher(self):
+        cu=self.cleaned_data['botcatcher']
+        if len(cu)>0:
+            raise forms.ValidationError('bot is catched')

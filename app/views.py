@@ -29,8 +29,8 @@ def insert_webpage(request):
             na=WFDO.cleaned_data['name']
             ur=WFDO.cleaned_data['url']
             em=WFDO.cleaned_data['email']
-            WO=Webpage.objects.get_or_create(topic_name=tn,name=na,url=ur,email=em)[0]
-            WO.save()
+            #WO=Webpage.objects.get_or_create(topic_name=tn,name=na,url=ur,email=em)[0]
+            #WO.save()
             return HttpResponse('Data is submitted')
         else:
             return HttpResponse('Data is invalid')
